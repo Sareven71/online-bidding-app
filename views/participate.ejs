@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <a href="/"><button>HOME</button></a>
+
+    <h1>"<%= data.name %>" Bid is here !!</h1>
+    <div>
+        <p>Item Price Now:</p>
+        <p id="price">
+            <%= data.bidPrice %> INR
+        </p>
+        <p>Last Bid by:</p>
+        <p id="owner">
+            <%= userData.name || 'No one tries to bid yet' %> 
+        </p>
+        <p id="id" style="display: none;">
+            <%= data.id %>
+        </p>
+        <p id="user" style="display: none;">
+            <%= user %>
+        </p>
+        <% if (user !=data.userId){ %>
+            <button id="inBtn">I'm IN</button>
+            <a><button id="outBtn">I'm OUT</button></a>
+            <% } else { %>
+                <a href="/"><button>Return to Home</button></a>
+                <% } %>
+                    <p id="msg-p"></p>
+        <% if(data.userId == user){ %>
+            <a href="/end/?id=<%=data.id%>"><button>End th BID !</button></a>
+        <% } %>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io();
+
+        const inBtn = document.querySelector('#inBtn');
+        let pid = document.querySelector('#id');
+        let id = pid.textContent;
+        // console.log(id);
+        let price = document.querySelector('#price');
+        let current_price = 0;
+        let puser = document.querySelector('#user');
+        let user = parseFloat(puser.textContent);
+        // console.log('user:',user);
+        let body = document.querySelector('body');
+        let outBtn = document.querySelector('#outBtn');
+
+
+
+        inBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // console.log('in btn clicked');
+            // socket.emit('in',true);
+            let converted_price = parseFloat(price.textContent);
+            // console.log('converted_price:',converted_price);
+
+            if (converted_price <= 500) {
+                current_price = converted_price + 50;
+            } else if (converted_price > 500 && converted_price <= 1000) {
+                current_price = converted_price + 200;
+            } else if (converted_price > 1000 && converted_price <= 5000) {
+                current_price = converted_price + 500;
+            } else if (converted_price > 5000 && converted_price <= 10000) {
+                current_price = converted_price + 1000;
+            } else if (converted_price > 10000 && converted_price <= 25000) {
+                current_price = converted_price + 2000;
+            } else if (converted_price > 25000 && converted_price <= 50000) {
+                current_price = converted_price + 5000;
+            } else if (converted_price > 50000 && converted_price <= 100000) {
+                current_price = converted_price + 10000;
+            } else if (converted_price > 100000 && converted_price <= 500000) {
+                current_price = converted_price + 25000;
+            } else if (converted_price > 500000 && converted_price <= 1000000) {
+                current_price = converted_price + 50000;
+            } else {
+                current_price = converted_price + 100000;
+            }
+
+            socket.emit('itemData', {
+                price: current_price,
+                id,
+                ownerId: user,
+            })
+        })
+
+        socket.on('price', (data) => {
+            // let price = document.querySelector('#price');
+            // let converted_price = parseFloat(price.textContent);
+            if(data.data == undefined){
+                let msg = document.querySelector('#msg-p');
+                msg.textContent = "Last bid is in the name of yours ...";
+                setTimeout(() => {
+                    msg.textContent = '';
+                }, 2000);
+            } else{
+                price.textContent = data.price + ' INR';
+                let owner = document.querySelector('#owner');
+                owner.textContent = data.owner;
+            }
+        })
+
+        outBtn.addEventListener('click',(e) => {
+            e.preventDefault();
+            socket.emit('out',{
+                user,id,
+            })
+        })
+
+        socket.on('result', (data) => {
+            // console.log(data.result)
+            if(data.result == undefined){
+                let msg = document.querySelector('#msg-p');
+                msg.textContent = "You Can't Quit the Bid Here. Beacuse, Last Bid is Yours ...";
+                setTimeout(() => {
+                    msg.textContent = '';
+                }, 5000);
+            } else{
+                window.location.href = '/';
+            }
+        })
+    </script>
+
+    <script>
+        // let p = document.createElement('p');
+        // p.innerText="I'm in clicked";
+        // body.append(p);
+        // console.log(price.textContent);
+        // let converted_price = parseFloat(price.textContent);
+        // console.log('price type: ', typeof converted_price);
+        // converted_price += 50
+        // console.log('after addition: ', converted_price)
+    </script>
+
+</body>
+
+</html>

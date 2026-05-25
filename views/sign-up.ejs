@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN PAGE</title>
+    <style>
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ccc;
+        }
+
+        #my-container{
+            /* border: 1px solid black; */
+            height: 40vh;
+            width: 50vw;
+            display: grid;
+            place-items: center;
+        }
+
+        #form{
+            /* border: 1px solid black; */
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+            height: 30vh;
+            width: 20vw;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 1rem;
+            background-color: #ccc;
+        }
+
+        #form #btn{
+            margin-left: 5rem;
+            height: 2rem;
+            width: 5rem;
+            border-radius: 10%;
+            border: none;
+            background-color: blue;
+            color: white;
+            transition: 0.2s linear;
+        }
+
+        #form input{
+            border-style: none none solid none;
+            outline: none;
+            background-color: transparent;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        #form #btn:hover{
+            box-shadow: 0 0 10px #000;
+        }
+
+        #form #btn:active{
+            padding: 10px;
+        }
+
+        a{
+            margin-right: 10px;
+        }
+
+        #forgot{
+            /* border: 1px solid black; */
+            margin-left: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #forgot button{
+            border: none;
+            border-radius: 10%;
+            color: white;
+            background-color: blue;
+            padding: 4px;
+        }
+
+        #buttons{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #cancel{
+            border: none;
+            padding: 5px;
+            background-color: #000;
+            border-radius: 10%;
+        }
+
+        a{
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px;
+            color: #ccc;
+        }
+
+        #already{
+            color: blue;
+            margin: 0 auto;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div id="my-container">
+        <form id="form" action="/sign-up" method="post">
+            <div>
+                <label for="name">Username</label>
+                <input type="text" id="name" name="name" placeholder="Enter your Username" required />
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your Email" required />
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your Password" required />
+            </div>
+            <div id="buttons">
+                <button type="submit" id="btn">SIGNUP</button>
+                <button type='button' id="cancel"><a href='/'>Cancel</a></button>
+            </div>
+            <a href="/login" id="already">Already had an account ?</a>
+        </form>
+        <% if(errors){ %>
+            <% errors.forEach((error) => { %>
+                <p><%= error %></p>
+            <% }) %>
+        <% } %>
+    </div>
+    
+</body>
+</html>

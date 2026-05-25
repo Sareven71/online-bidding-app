@@ -1,0 +1,1 @@
+ALTER TABLE `items_table` ADD `bid_price` decimal;

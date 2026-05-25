@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            scrollbar-width: none;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            background-color: #ccc;
+            overflow-x: hidden;
+            
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            width: 95vw;
+        }
+
+        #form div {
+            height: 11vh;
+            width: auto;
+            /* border: 1px solid red; */
+        }
+
+        #name,#description,#category{
+            display: block;
+            background-color: transparent;
+        }
+
+        #form input{
+            border: none;
+            border-bottom: 2px solid #ffffff;
+            outline: none;
+        }
+
+        #form #year{
+            border: 1px solid black;
+        }
+
+        #form textarea{
+            height: 15vh;
+            width: 80%;
+        }
+
+        #photos-div{
+            margin-top: 95px;
+        }
+
+        #photos-div input{
+            border: none;
+        }
+
+        #buttons-div{
+            /* width: 10vw; */
+            margin: 0 auto;
+        }
+
+        #submit-btn{
+            margin: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 10%;
+            color: white;
+            background-color: blue;
+        }
+
+        #submit-btn:hover{
+            box-shadow: 0 0 25px 20px #fff;
+        }
+
+        #cancel-btn{
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 10%;
+            color: #000;
+            background-color: #ccc;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="my-container">
+        <form id="form" method="post" action="/join-now" enctype="multipart/form-data">
+            <div>
+                <label for="name">Name of your Item <sup>*</sup></label>
+                <input type="text" id="name" name="name" placeholder="Name of your item" required />
+            </div>
+
+            <div>
+                <label for="condition">Select item condition <sup>*</sup></label>
+                <div>
+                    <input type="radio" id="condition" name="condition" value="Excellent">Excellent
+                    <input type="radio" id="condition" name="condition" value="Good"> Good
+                    <input type="radio" id="condition" name="condition" value="OK"> OK
+                    <input type="radio" id="condition" name="condition" value="Below Average"> Below Average
+                    <input type="radio" id="condition" name="condition" value="Bad"> Bad
+                </div>
+            </div>
+
+            <div>
+                <label for="category">Enter the category your item falls in (optional)</label>
+                <input type="text" id="category" name="category" placeholder="Electronics, utensils etc" />
+            </div>
+
+            <div>
+                <label for="year">Choose manufactured or purchased year if you know (optional)</label>
+                <input type="date" id="year" name="year" placeholder="Manufactured or purchased year" />
+            </div>
+
+            <div>
+                <label for="description">Explain breifly about your item <sup>*</sup></label>
+                <textarea id="description" name="description" placeholder="Explain a brief about your item"
+                    required></textarea>
+            </div>
+
+            <div id="photos-div"> 
+                <h4>Photos can't be replaced. Select best photos(4) for better results during the bid</h4>
+                <label>Upload the photos of your item. Atleast two required</label>
+                <input type="file" id="photo1" name="photos" accept="image/*" required />
+                <input type="file" id="photo2" name="photos" accept="image/*" required />
+                <input type="file" id="photo3" name="photos" accept="image/*" />
+                <input type="file" id="photo4" name="photos" accept="image/*" />
+            </div>
+
+            <div>
+                <h4>This date can't be modified later. Choose wisely !!</h4>
+                <label for="bidDate">Select your preferred date and time <sup>*</sup></label>
+                <input type="datetime-local" id="bidDate" name="bidDate" required />
+            </div>
+
+            <div>
+                <label for="price">Please enter the starting Price of your Item (Optional)</label>
+                <input type="number" id="price" name="price" placeholder="Enter your Price" />
+            </div>
+            
+            <% if(errors){ %>
+                <% errors.forEach((error) => { %>
+                    <p><%= error %> </p>
+                <% }) %>
+            <% } %>
+
+            <div id='buttons-div'>
+                <button type="submit" id="submit-btn">ADD ITEM</button>
+                <a href="/admin"><button type="button" id="cancel-btn">CANCEL</button></a>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

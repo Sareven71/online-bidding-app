@@ -1,0 +1,1 @@
+ALTER TABLE `items_table` ADD `start_price` varchar(255);

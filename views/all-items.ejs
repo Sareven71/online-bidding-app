@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            height: 100px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <% if(items){ %>
+        <a href="/"><button>HOME</button></a>
+        <% items.forEach((item) => { %>
+            <div>
+                <p> Item Name: <%= item.name %> </p>
+                <p>Item Condition: <%= item.condition %></p>
+                <p>category: <%= item.category %></p>
+                <p>Manufactured Year: <%= item.manufacturedYear %></p>
+                <p>Description: <%= item.description %></p>
+                <h3>Images</h3>
+                <img src="http://localhost:3000/images/<%= item.photo1 %>" />
+                <img src="http://localhost:3000/images/<%= item.photo2 %>" />
+                <% if(item.photo3 != null){ %>
+                    <img src="http://localhost:3000/images/<%= item.photo3 %>" alt="No Additional image" />
+                <% } %>
+                <% if(item.photo4 != null){ %>
+                    <img src="http://localhost:3000/images/<%= item.photo4 %>"  alt=" No additional image"/>
+                <% } %>
+                <p>Bidding starts at <%= new Date(item.bidDate).toString().slice(0,21) %></p>
+                <p>Price bidder Choosed: <%= item.startPrice %> </p>
+                <% if(category == 'future'){ %>
+                    <a href="/alert/?id=<%=item.id%>&url=all-items"><button>Send me an alert</button></a>
+                <% } else if(category == 'current'){ %>
+                    <a href="/participate/?id=<%= item.id %>"><button>Participate in this bid</button></a>
+                <% } else{ %>
+                    <p>Error occured</p>
+                <% } %>
+            </div>
+        <% }) %>
+    <% } else{ %>
+        <h1>Something went wrong !!</h1>
+    <% } %>
+    
+</body>
+</html>

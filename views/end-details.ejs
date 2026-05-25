@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% if(!user){ %>
+        <h1>Please Login to access</h1>
+    <% } else{ %>
+        <% if(itemData && ownerData && previousOwnerData){ %>
+            <p>Purchased By: <%= ownerData.name %></p>
+            <p>Purchased from: <%= previousOwnerData.name %></p>
+            <p>Purchased on: <%= new Date(itemData.bidDate).toString().slice(0,16) %></p>
+            <p>Starting Price: <%= itemData.startPrice %></p>
+            <p>Purcahed Price: <%= itemData.bidPrice %></p>
+        <% } else{ %>
+            <h1>Something Went Wrong</h1>
+        <% } %>
+    <% } %>
+    <a href="/admin/?id=<%=user%>"><button>BACK</button></a>
+</body>
+</html>

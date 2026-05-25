@@ -1,0 +1,1 @@
+ALTER TABLE `users_table` MODIFY COLUMN `email_verified` boolean DEFAULT false;

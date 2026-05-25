@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            overflow-x: auto;
+            scrollbar-width: 0;
+        }
+
+        body::-webkit-scrollbar{
+            display: none;
+        }
+
+        img{
+            height: 100px;
+            width: 100px;
+        }
+
+        #details-div{
+            border: 1px solid red;
+        }
+    </style>
+
+</head>
+<body>
+    <% if(!user){ %>
+        <h1>Login to access Admin Page</h1>
+        <a href="/login"><button>LOGIN</button></a>
+    <% } else{ %>
+        <a href="/"><button>HOME</button></a>
+        <a href="/join-now"><button>Add Items</button></a>
+        <% if(userData && userData.emailVerified == false){ %>
+            <a href="/verify-email"><button>Verify your Email</button></a>
+            <% if(errors){ %>
+                <% errors.forEach((error) => { %>
+                    <p> <%= error %> </p>
+                <% }) %>
+            <% } %>
+        <% } else{ %>
+            <p>Email Verified</p>
+        <% } %>
+        <h1>Welcome to admin Page</h1>
+        <% data.forEach((item) => { %>
+           <div id="details-div">
+            <p> Item Name: <%= item.name %> </p>
+            <p>Item Condition: <%= item.condition %></p>
+            <p>category: <%= item.category %></p>
+            <p>Manufactured Year: <%= item.manufacturedYear %></p>
+            <p>Description: <%= item.description %></p>
+            <h3>Images</h3>
+            <img src="http://localhost:3000/images/<%= item.photo1 %>" />
+            <img src="http://localhost:3000/images/<%= item.photo2 %>" />
+            <% if(item.photo3 != null){ %>
+                <img src="http://localhost:3000/images/<%= item.photo3 %>" alt="No Additional image" />
+            <% } %>
+            <% if(item.photo4 != null){ %>
+                <img src="http://localhost:3000/images/<%= item.photo4 %>"  alt=" No additional image"/>
+            <% } %>
+            <p>Bidding starts at <%= new Date(item.bidDate).toString().slice(0,21) %></p>
+            <p>Price You Choosed: <%= item.startPrice %> </p>
+            
+           <% if(new Date() > new Date(item.endDate) || item.isSold == true){ %>
+                <p>Bid has ended <a href="/end-details/?id=<%=item.id%>"><button>DETAILS -></button></a></p>
+                <a href="/delete-item/?id=<%= item.id %>"><button type="submit">Delete</button></a>
+           <% } else{ %>
+                <% if(new Date() >= new Date(item.bidDate) && new Date() <= new Date(item.endDate)){ %>
+                <p>Can't Delete and Edit Item Info now. Beacuse bid has started</p>
+                <a href="/participate/?id=<%= item.id %>"><button>Watch the Bid</button></a>
+            <% } else{ %>
+                <a href="/edit/?id=<%= item.id %>"><button>Edit Item Info</button></a>
+                <form id="form" action="/delete-item/?id=<%= item.id %>" method="post">
+                    <a href="/delete-item/?id=<%= item.id %>"><button type="submit">Delete</button></a>
+                </form>
+                <a href="/alert/?id=<%=item.id%>&url=admin"><button>Send me an Alert</button></a>
+           <% } %>
+           <% } %>
+           </div>
+        <% }) %>
+    <% } %>
+    
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/c3f37205d7.js" crossorigin="anonymous"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            overflow: auto;
+            scrollbar-width: none;
+            overflow-x: hidden;
+        }
+
+        #navbar-container {
+            position: fixed;
+            top: 0px;
+            height: 8vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* background-image: radial-gradient( circle 855px at -5.3% 49%,  rgba(2,65,97,1) 0%, rgba(7,122,159,1) 41.3%, rgba(136,193,197,1) 100.2% ); */
+            background-image: linear-gradient(66.5deg, rgba(161, 204, 165, 1) -11.3%, rgba(12, 146, 180, 1) 100.1%);
+        }
+
+        #heading {
+            padding: 15px;
+            display: flex;
+            height: 100%;
+            align-items: end;
+        }
+
+        #sections {
+            display: flex;
+            height: 100%;
+            width: 40%;
+            align-items: end;
+            justify-content: space-between;
+        }
+
+        #sections:last-child {
+            padding-right: 15px;
+        }
+
+        #sections a {
+            padding-bottom: 5px;
+            text-decoration: none;
+            color: rgb(63, 98, 112);
+        }
+
+        #sections a:hover {
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+            border-bottom: 3px solid #fff;
+        }
+
+        section {
+            height: 100vh;
+            width: 100vw;
+            padding-top: 8vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(66.5deg, rgba(161, 204, 165, 1) -11.3%, rgba(12, 146, 180, 1) 100.1%);
+        }
+
+        #home section {
+            display: grid;
+            grid-template-rows: repeat(9, 1fr);
+            grid-template-columns: repeat(9, 1fr);
+            background-image: linear-gradient(66.5deg, rgba(161, 204, 165, 1) -11.3%, rgba(12, 146, 180, 1) 100.1%);
+        }
+
+        #current {
+            grid-area: 3/2/8/5;
+        }
+
+        #upcoming {
+            grid-area: 3/6/8/9;
+        }
+
+        #upcoming,
+        #current {
+            height: 100%;
+            width: 100%;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            box-shadow: 0 0 10px 5px #5f868b;
+            transition: 0.6s;
+        }
+
+        #upcoming:hover,
+        #current:hover {
+            margin-bottom: 5px;
+            box-shadow: 0 0 10px 5px #FFF;
+        }
+
+        #bidders-section {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        #bidders-section div {
+            /* border: 1px solid red; */
+            width: 95vw;
+        }
+
+        #heading-div {
+            height: 10%;
+            display: flex;
+            align-items: center;
+        }
+
+        #join-div {
+            display: flex;
+            height: 10%;
+            align-items: center;
+        }
+
+        #best-div {
+            height: 70%;
+            /* border: 1px solid red; */
+        }
+
+        #best-div>div:first-child {
+            height: 5%;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+        }
+
+        .items{
+            color: rgb(0, 0, 0);
+            background-color: #ccc;
+            border: none;
+            border-radius: 10px;
+            transition: 0.3s linear;
+        }
+
+        .items:hover{
+            color: #ccc;
+            background-color: black;
+            transition: 0.3s linear;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="navbar-container">
+        <div id="heading">
+            <h2>Self Bidding</h2>
+        </div>
+        <div id="sections">
+            <a href="#home">HOME</a>
+            <a href="/admin">ADMIN</a>
+            <!-- <a href="#dashboard">DASHBOARD</a> -->
+            <% if(user){ %>
+                <a href="/logout">LOGOUT</a>
+                <% } else{ %>
+                    <a href="/login">LOGIN</a>
+                    <% } %>
+                        <a href="#bidders">BIDDERS</a>
+                        <a href="#contact-us">CONTACT US</a>
+        </div>
+    </div>
+    <div id="home">
+        <section>
+            <div id="current">
+                <% if(!user){ %>
+                    <h1>Login to access the bids</h1>
+                <% } else{ %>
+                    <h4>Current Bids</h4>
+                    <% if(current_items[0]){ %>
+                    <a href="/details/?id= <%= current_items[0].id %>" >
+                        <button class="items">
+                            <h1><%= current_items[0].name %></h1>
+                            <p> Ends at <%= current_items[0].endDate.toString().slice(0,21) %></p>
+                        </button>
+                    </a>
+                    <% if(current_items.length > 1){ %>
+                        <a href="/details/?id= <%= current_items[1].id %>" >
+                            <button class="items">
+                                <h1><%= current_items[1].name %></h1>
+                                <p> Ends at  <%= current_items[1].endDate.toString().slice(0,21) %></p>
+                            </button>
+                        </a>
+                    <% } %>
+                    
+                    <% if(current_items.length > 2 ){ %>
+                        <a href="/details/?id= <%= current_items[2].id %>" >
+                            <button class="items">
+                                <h1><%= current_items[2].name %></h1>
+                                <p> Ends at <%= current_items[2].endDate.toString().slice(0,21) %></p>
+                            </button>
+                        </a>
+                    <% } %>
+
+                    <% if(current_items.length > 3){ %>
+                        <a href="/all-items/?category=current"><button>More Items ....</button></a>
+                    <% } %>
+
+                <% } else{ %>
+                    <h3>No bids available right now</h3>
+                <% } %>
+                <% } %>
+            </div>
+            <div id="upcoming">
+                <% if(!user){ %>
+                    <h1>Login access future bids</h1>
+                <% } else{ %>
+                    <h5>Future Bids</h5>
+                    <% if(!future_items[0]){ %>
+                    <h3>No Future bids available now !</h3>
+                <% } else{ %>
+                    <% if(future_items[0]){ %>
+                        <a href="/details/?id= <%= future_items[0].id %>" >
+                        <button class="items">
+                            <h1><%= future_items[0].name %></h1>
+                            <p><%= future_items[0].bidDate.toString().slice(0,21) %></p>
+                        </button>
+                    </a>
+                    <% } %>
+                    <% if(future_items.length > 1){ %>
+                        <a href="/details/?id=<%=future_items[1].id%>" >
+                            <button class="items">
+                                <h1><%= future_items[1].name %></h1>
+                                <p><%= future_items[1].bidDate.toString().slice(0,21) %></p>
+                            </button>
+                        </a>
+                    <% } %>
+                    
+                    <% if(future_items.length > 2 ){ %>
+                        <a href="/details/?id= <%= future_items[2].id %>" >
+                            <button class="items">
+                                <h1><%= future_items[2].name %></h1>
+                                <p><%= future_items[2].bidDate.toString().slice(0,21) %></p>
+                            </button>
+                        </a>
+                    <% } %>
+
+                    <% if(future_items.length > 3){ %>
+                        <a href="/all-items/?category=future"><button>More Items ....</button></a>
+                    <% } %>
+                <% } %>
+                <% } %>
+            </div>
+        </section>
+    </div>
+    <div id="bidders">
+        <section id="bidders-section">
+            <% if(user){ %>
+                <div id="heading-div">
+                    <h1>
+                        Hi <%= data[0].name %> !! Hope you are doing well ...
+                    </h1>
+                </div>
+
+                <div id="join-div">
+                    <% if(user_items[0]){ %>
+                        <h3>Check your items ...</h3>
+                        <a href="/admin"><button>My Items <i class="fa-solid fa-angle-right"></i></button></a>
+                        <a href="/join-now"><button>Add Item <i class="fa-solid fa-angle-right"></i> </button></a>
+                        <% } else { %>
+                            <p>Want to become a bidder ?</p>
+                            <a href="/join-now">JOIN NOW</a>
+                            <p>and compete with others</p>
+                            <% } %>
+                </div>
+
+                <div id="best-div">
+                    <div>
+                        <h2>Our best bidders</h2>
+                    </div>
+                    <div>
+                        <h1>Users data</h1>
+                    </div>
+                </div>
+                <% } else{ %>
+                    <h1>Login to become a bidder...</h1>
+                    <% } %>
+        </section>
+    </div>
+    <div id="contact-us">
+        <section>
+            <h1>contact us</h1>
+        </section>
+    </div>
+
+</body>
+
+</html>

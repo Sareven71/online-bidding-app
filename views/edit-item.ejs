@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            background-color: #ccc;
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            width: 95vw;
+        }
+
+        #form div {
+            height: 11vh;
+            width: auto;
+            /* border: 1px solid red; */
+        }
+
+        #name,#description,#category{
+            display: block;
+            background-color: transparent;
+        }
+
+        #form input{
+            border: none;
+            border-bottom: 2px solid #ffffff;
+            outline: none;
+        }
+
+        #form #year{
+            border: 1px solid black;
+        }
+
+        #form textarea{
+            height: 15vh;
+            width: 80%;
+        }
+
+        #photos-div{
+            margin-top: 95px;
+        }
+
+        #photos-div input{
+            border: none;
+        }
+
+        #buttons-div{
+            /* width: 10vw; */
+            margin: 0 auto;
+        }
+
+        #submit-btn{
+            margin: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 10%;
+            color: white;
+            background-color: blue;
+        }
+
+        #submit-btn:hover{
+            box-shadow: 0 0 25px 20px #fff;
+        }
+
+        #cancel-btn{
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid black;
+            border-radius: 10%;
+            color: #000;
+            background-color: #ccc;
+        }
+
+        #bid-date{
+            margin-top: 65px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="my-container">
+        <form id="form" method="post" action="/edit/?id=<%= data.id %> " >
+            <div>
+                <label for="name">Name of your Item <sup>*</sup></label>
+                <input type="text" id="name" name="name" placeholder="Name of your item" value="<%= data.name %>" required />
+            </div>
+
+            <div>
+                <label for="condition">Select item condition <sup>*</sup></label>
+                <div>
+                        <input type="radio" id="condition" name="condition" value="Excellent" <%= data.condition === 'Excellent' ? 'checked' : ' ' %> >Excellent
+                        <input type="radio" id="condition" name="condition" value="Good" <%= data.condition === 'Good' ? 'checked' : ' ' %> > Good
+                        <input type="radio" id="condition" name="condition" value="OK" <%= data.condition === 'OK' ? 'checked' : ' ' %> > OK
+                        <input type="radio" id="condition" name="condition" value="Below Average" <%= data.condition === 'Below Average' ? 'checked' : ' ' %>  > Below Average
+                        <input type="radio" id="condition" name="condition" value="Bad" <%= data.condition === 'Bad' ? 'checked' : ' ' %> > Bad
+                </div>
+            </div>
+
+            <div>
+                <label for="category">Enter the category your item falls in (optional)</label>
+                <input type="text" id="category" name="category" placeholder="Electronics, utensils etc" value="<%= data.category %> "/>
+            </div>
+
+            <div>
+                <label for="year">Choose manufactured or purchased year if you know (optional)</label>
+                <input type="date" id="year" name="year" placeholder="Manufactured or purchased year" value="<%= data.manufacturedYear %>" />
+            </div>
+
+            <div>
+                <label for="description">Explain breifly about your item <sup>*</sup></label>
+                <textarea id="description" name="description" placeholder="Explain a brief about your item"
+                    required ><%= data.description %></textarea>
+            </div>
+
+            <div>
+                <h4>If you dont want to add price, provide 0</h4>
+                <label for="price">Enter your new Price</label>
+                <input type="number" id="price" name="price" value="<%= data.startPrice %>" />
+            </div>
+
+            <% if(errors){ %>
+                <% errors.forEach((error) => { %>
+                    <p><%= error %></p>
+                <% }) %>
+            <% } %>
+
+            <!-- <div id="photos-div">
+                <label>Upload the photos of your item. Atleast two required</label>
+                <input type="file" id="photo1" name="photos" accept="image/*" required />
+                <input type="file" id="photo2" name="photos" accept="image/*" required />
+                <input type="file" id="photo3" name="photos" accept="image/*" />
+                <input type="file" id="photo4" name="photos" accept="image/*" />
+            </div> -->
+
+            <!-- <div id="bid-date">
+                <label for="bidDate">Select your preferred date and time <sup>*</sup></label>
+                <input type="datetime-local" id="bidDate" name="bidDate" required value="<%= new Date(data.bidDate) .toISOString().slice(0,16) %>" />
+            </div> -->
+
+            <div id='buttons-div'>
+                <button type="submit" id="submit-btn">Save Changes</button>
+                <a href="/admin"><button type="button" id="cancel-btn">CANCEL</button></a>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

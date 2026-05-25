@@ -1,0 +1,1 @@
+ALTER TABLE `items_table` MODIFY COLUMN `is_sold` boolean DEFAULT false;

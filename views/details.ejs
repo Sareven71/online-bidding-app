@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <style>
+        img{
+            height: 100px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="my-container">
+        <a href="/"><button>HOME</button></a>
+        <div>
+            <h3>Owner: <%= user_data.name %></h3>
+            <h3>EMAIL: <%= user_data.email %></h3>
+        </div>
+
+        <div>
+            <h2>Product Details</h2>
+            <p> Item Name: <%= data.name %> </p>
+            <p>Item Condition: <%= data.condition %></p>
+            <p>category: <%= data.category %></p>
+            <p>Manufactured Year: <%= data.manufacturedYear %></p>
+            <p>Description: <%= data.description %></p>
+            <h3>Images</h3>
+            <img src="http://localhost:3000/images/<%= data.photo1 %>" />
+            <img src="http://localhost:3000/images/<%= data.photo2 %>" />
+            <% if(data.photo3 != null){ %>
+                <img src="http://localhost:3000/images/<%= data.photo3 %>" alt="No Additional image" />
+            <% } %>
+            <% if(data.photo4 != null){ %>
+                <img src="http://localhost:3000/images/<%= data.photo4 %>"  alt=" No additional image"/>
+            <% } %>
+            <p>Bidding starts at <%= data.bidDate.toString().slice(0,21) %></p>
+            <p>Price bidder Choosed: <%= data.startPrice %> </p>
+            <% if(user == data.userId){ %>
+                <h3>Item Owner can't Participate in the bid</h3>
+                <% if(isCurrent){ %>
+                    <a href="/participate/?id=<%= data.id %>"><button>Watch the bid (Bidding Started)</button></a>
+                <% } else{ %>
+                    <a href="/alert/?id=<%=data.id%>&url=details"><button>Send me an Alert</button></a>
+                <% } %>
+            <% } else{ %>
+                <% if(isCurrent){ %>
+                    <a href="/participate/?id=<%= data.id %>"><button>Participate in the bid (Bidding Started)</button></a>
+                <% } else{ %>
+                    <a href="/alert/?id=<%=data.id%>&url=details"><button>Send me an Alert</button></a>
+                <% } %>
+            <% } %>
+            <a href="/"><button>Cancel</button></a>
+        </div>
+        <% if(errors){ %>
+            <% errors.forEach((error)=> { %>
+                <p>
+                    <%= error %>
+                </p>
+                <% }) %>
+                    <% } %>
+    </div>
+    
+</body>
+</html>

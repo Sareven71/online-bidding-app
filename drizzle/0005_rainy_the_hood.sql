@@ -1,0 +1,1 @@
+ALTER TABLE `items_table` ADD `last_bid_by` int;
