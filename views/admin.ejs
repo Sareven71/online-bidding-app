@@ -39,6 +39,9 @@
     <% } else{ %>
         <a href="/"><button>HOME</button></a>
         <a href="/join-now"><button>Add Items</button></a>
+        <a href="/edit-profile"><button>EDIT PROFILE</button></a>
+        <a href="/reset-password"><button>RESET PASSWORD</button></a>
+        <a href="/purchased-items"><button>PURCHASED ITEMS</button></a>
         <% if(userData && userData.emailVerified == false){ %>
             <a href="/verify-email"><button>Verify your Email</button></a>
             <% if(errors){ %>

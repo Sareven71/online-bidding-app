@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form id="form" method="post" action="/edit-profile">
+        <input id="name" name="name" value="<%=userData.name%>" placeholder="Enter your name" />
+        <input id="email" name="email" value="<%=userData.email%>" placeholder="xxxx@gmail.com" />
+        <button type="submit">SAVE</button>
+        <a href="/admin"><button type="button">CANCEL</button></a>
+    </form>
+
+    <% if(errors){ %>
+        <% errors.forEach((error)=>{ %>
+            <p><%=error%></p>
+        <% }) %>
+    <% } %>
+    
+</body>
+</html>

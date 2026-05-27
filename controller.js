@@ -4,7 +4,7 @@ import { db } from './main.js';
 import { eq, lte, gt, and, gte } from 'drizzle-orm';
 import { usersTable, itemsTable, tokensTable } from './src/schema.js';
 import argon2 from 'argon2';
-import { signup_schema } from './validators.js';
+import { signup_schema, editProfileSchema } from './validators.js';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import multer from 'multer';
@@ -154,6 +154,15 @@ export const endDetails = async (req, res) => {
         console.log(error);
         return res.send('Error occured in controller - endDetails function');
     }
+}
+
+export const editProfile = async (req,res) => {
+    if(res.locals.user ==  null){
+        req.flash('errors','Please login to access the page');
+        return res.redirect('/login');
+    }
+    const [userData] = await db.select().from(usersTable).where(eq(usersTable.id,res.locals.user));
+    return res.render('edit-profile',{userData,errors:req.flash('errors')});
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -559,4 +568,32 @@ export const verifyToken = async (req, res) => {
     } catch (error) {
         console.log('error:', error);
     }
+}
+
+export const postEditProfile = async (req,res) => {
+    if(res.locals.user == null){
+        req.flash('errors','Please login to access the page');
+        return res.redirect('/login');
+    }
+
+    // console.log('req.body:',req.body);
+
+    const {data,error} = editProfileSchema.safeParse(req.body);
+    if(error){
+        console.log('error:',error.issues[0].message);
+        req.flash('errors',error.issues[0].message);
+        return res.redirect('/edit-profile');
+    }
+
+    // console.log('data:',data);
+    try {
+        await db.update(usersTable).set({name:req.body.name,email:req.body.email}).where(eq(usersTable.id,res.locals.user));
+        return res.redirect('/admin');
+    } catch (error) {
+        console.log('error:',error);
+        return res.send('error at postEditProfile function:',error);
+    }
+
+    return res.redirect('/admin');
+
 }

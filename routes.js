@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {homePage, loginPage, postLogin, signupPage, adminPage, forgotPassword, postSignup, logout, joinNow, postJoinNow, deleteItem, details, editItem, postEdit, allItems, participate, out, emailAlert, end, endDetails, verifyEmail, verifyToken } from './controller.js';
+import {homePage, loginPage, postLogin, signupPage, adminPage, forgotPassword, postSignup, logout, joinNow, postJoinNow, deleteItem, details, editItem, postEdit, allItems, participate, out, emailAlert, end, endDetails, verifyEmail, verifyToken, editProfile, postEditProfile } from './controller.js';
 import { upload } from "./multer.js";
 
 export const router = Router();
@@ -22,3 +22,4 @@ router.route('/end/').get(end)
 router.route('/end-details/').get(endDetails);
 router.route('/verify-email').get(verifyEmail);
 router.route('/verify').get(verifyToken);
+router.route('/edit-profile').get(editProfile).post(postEditProfile);
